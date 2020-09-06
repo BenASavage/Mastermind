@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="96.67247023809529" y="799.0">mastermind.GUI</node>
+    <node x="0.0" y="303.0">mastermind.Board</node>
+    <node x="122.77559523809524" y="562.0">mastermind.Game</node>
+    <node x="102.78273809523807" y="0.0">mastermind.Code</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="mastermind.Board" target="mastermind.Code">
+      <point x="96.0" y="-104.5" />
+      <point x="224.0" y="283.0" />
+      <point x="212.7827380952381" y="283.0" />
+      <point x="2.8421709430404007E-14" y="126.5" />
+    </edge>
+    <edge source="mastermind.Game" target="mastermind.Board">
+      <point x="-2.8421709430404007E-14" y="-93.5" />
+      <point x="206.2755952380952" y="542.0" />
+      <point x="213.33333333333331" y="542.0" />
+      <point x="85.33333333333331" y="104.5" />
+    </edge>
+    <edge source="mastermind.Game" target="mastermind.Code">
+      <point x="33.39999999999995" y="-93.5" />
+      <point x="239.67559523809518" y="532.0" />
+      <point x="271.2084821428571" y="532.0" />
+      <point x="271.2084821428571" y="283.0" />
+      <point x="244.21130952380952" y="283.0" />
+      <point x="31.428571428571445" y="126.5" />
+    </edge>
+    <edge source="mastermind.GUI" target="mastermind.Code">
+      <point x="90.33333333333329" y="-192.0" />
+      <point x="322.5058035714286" y="774.0" />
+      <point x="300.9473214285714" y="774.0" />
+      <point x="300.9473214285714" y="283.0" />
+      <point x="307.0684523809524" y="283.0" />
+      <point x="94.2857142857143" y="126.5" />
+    </edge>
+    <edge source="mastermind.GUI" target="mastermind.Game">
+      <point x="-2.8421709430404007E-14" y="-192.0" />
+      <point x="232.17247023809526" y="774.0" />
+      <point x="248.02559523809524" y="774.0" />
+      <point x="41.75" y="93.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9" x="508.0" y="395.1111111111111" />
+  <SelectedNodes>
+    <node>mastermind.Board</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
