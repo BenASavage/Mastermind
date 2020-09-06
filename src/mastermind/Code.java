@@ -56,7 +56,11 @@ public class Code {
         return Arrays.hashCode(colors);
     }
 
-   public Code getFeedback(Code other) {
+
+
+
+
+    public Code getFeedback(Code other) {
         Color[] otherColors = other.getColors();
         int blackPegs = 0;
         int whitePegs = 0;
