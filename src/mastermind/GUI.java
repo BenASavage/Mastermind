@@ -199,7 +199,7 @@ public class GUI {
                         game.getBoard().getGuessHistory().get(line).getColors()[i].toString());
                 color = (java.awt.Color) field.get(null);
             } catch (Exception e) {
-                color = null;
+                color = buttonsGuess[i].getBackground();
             }
 
             buttonsGuess[i].setBackground(color);
