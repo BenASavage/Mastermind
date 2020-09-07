@@ -3,6 +3,8 @@ package mastermind;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 public class GUI {
 
@@ -60,15 +62,11 @@ public class GUI {
         boardPanel.setBackground(new java.awt.Color(-4275773));
         boardPanel.setOpaque(false);
         panel2.add(boardPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        guessPanel = new JPanel();
-        guessPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         guessPanel.setAutoscrolls(false);
-        guessPanel.setBackground(new java.awt.Color(-1973791));
+        guessPanel.setBackground(new java.awt.Color(-3618616));
         guessPanel.setOpaque(true);
         boardPanel.add(guessPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        feedbackPanel = new JPanel();
-        feedbackPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        feedbackPanel.setBackground(new java.awt.Color(-1973791));
+        feedbackPanel.setBackground(new java.awt.Color(-3618616));
         feedbackPanel.setOpaque(true);
         boardPanel.add(feedbackPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         inputPanel = new JPanel();
@@ -136,7 +134,7 @@ public class GUI {
         int input = JOptionPane.showConfirmDialog(panel1, message, "You Win!", JOptionPane.YES_NO_OPTION);
         if (input == JOptionPane.YES_OPTION) {
             game.playAgain();
-            panel1.updateUI();
+            createBoard();
         } else {
             System.exit(0);
         }
@@ -147,14 +145,88 @@ public class GUI {
         int input = JOptionPane.showConfirmDialog(panel1, message, "You lose.", JOptionPane.YES_NO_OPTION);
         if (input == JOptionPane.YES_OPTION) {
             game.playAgain();
-            panel1.updateUI();
+            createBoard();
         } else {
             System.exit(0);
         }
     }
 
+    private void createBoard() {
+        guessPanel.removeAll();
+        feedbackPanel.removeAll();
+        guessPanel.revalidate();
+        feedbackPanel.revalidate();
+
+        ArrayList<JPanel> guessLines = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            guessLines.add(new JPanel(new GridLayout(1, 4, 20, 5)));
+        }
+        for (JPanel el : guessLines) {
+            for (int i = 0; i < 4; i++) {
+                Button button = new Button();
+                button.setFocusable(false);
+                button.setEnabled(false);
+                button.setBackground(java.awt.Color.lightGray);
+                el.add(button);
+            }
+            guessPanel.add(el);
+        }
+
+        ArrayList<JPanel> feedbackLines = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            feedbackLines.add(new JPanel(new GridLayout(2, 2, 5, 5)));
+        }
+        for (JPanel el : feedbackLines) {
+            for (int i = 0; i < 4; i++) {
+                Button button = new Button();
+                button.setFocusable(false);
+                button.setEnabled(false);
+                button.setBackground(java.awt.Color.lightGray);
+                el.add(button);
+            }
+            feedbackPanel.add(el);
+        }
+    }
+
+    private void updateLine(int line) {
+        JPanel currentTurnGuess = (JPanel) guessPanel.getComponent(line);
+        Component[] buttonsGuess = currentTurnGuess.getComponents();
+
+        for (int i = 0; i < buttonsGuess.length; i++) {
+            java.awt.Color color;
+            try {
+                Field field = Class.forName("java.awt.Color").getField(
+                        game.getBoard().getGuessHistory().get(line).getColors()[i].toString());
+                color = (java.awt.Color) field.get(null);
+            } catch (Exception e) {
+                color = null;
+            }
+
+            buttonsGuess[i].setBackground(color);
+        }
+
+        JPanel currentTurnFeedback = (JPanel) feedbackPanel.getComponent(line);
+        Component[] buttonsFeedback = currentTurnFeedback.getComponents();
+
+        for (int i = 0; i < buttonsFeedback.length; i++) {
+            java.awt.Color color;
+            try {
+                Field field = Class.forName("java.awt.Color").getField(
+                        game.getBoard().getFeedbackHistory().get(line).getColors()[i].toString());
+                color = (java.awt.Color) field.get(null);
+            } catch (Exception e) {
+                color = buttonsFeedback[i].getBackground();
+            }
+            buttonsFeedback[i].setBackground(color);
+        }
+    }
+
     private void createUIComponents() {
         game = new Game();
+
+        guessPanel = new JPanel(new GridLayout(10, 1, 0, 10));
+        feedbackPanel = new JPanel(new GridLayout(10, 1, 0, 10));
+        createBoard();
 
         guessButton = new JButton("Guess");
         guessButton.addActionListener(e -> {
@@ -164,15 +236,11 @@ public class GUI {
                     Color.valueOf(comboBox4.getSelectedItem().toString())};
             int state = game.input(new Code(colors));
 
+            updateLine(game.getBoard().getGuessHistory().size() - 1);
+
             switch (state) {
-                case 1: {
-                    winMessage();
-                    break;
-                }
-                case 2: {
-                    loseMessage();
-                    break;
-                }
+                case 1 -> winMessage();
+                case 2 -> loseMessage();
             }
         });
     }

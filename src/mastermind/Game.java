@@ -4,12 +4,8 @@ public class Game {
 
     private Board board;
 
-    private int turnLimit;
-
-
     public Game() {
         this.board = new Board();
-        this.turnLimit = 10;
     }
 
     public Board getBoard() {
@@ -25,7 +21,7 @@ public class Game {
             return 1;
         }
 
-        if (board.getGuessHistory().size() < turnLimit-1) {
+        if (board.getGuessHistory().size() < 9) {
             board.addGuess(guess);
         } else {
             return 2;
