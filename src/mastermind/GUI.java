@@ -129,9 +129,16 @@ public class GUI {
         return panel1;
     }
 
-    private void winMessage() {
-        String message = "You win! \nThe code was: " + game.getSecretCode() + "\n Would you like to play again?";
-        int input = JOptionPane.showConfirmDialog(panel1, message, "You Win!", JOptionPane.YES_NO_OPTION);
+    /**
+     * Displays a JOptionPane that tells the user if they have won or lost, the secret code, and asks them if they would
+     * like to play again. If the user selects yes then a new board is created and displayed.
+     * @param state the title and first line of the message
+     * @see #createBoard()
+     * @see Game#playAgain()
+     */
+    private void message(String state) {
+        String message = state + "\nThe code was: " + game.getSecretCode() + "\n Would you like to play again?";
+        int input = JOptionPane.showConfirmDialog(panel1, message, state, JOptionPane.YES_NO_OPTION);
         if (input == JOptionPane.YES_OPTION) {
             game.playAgain();
             createBoard();
@@ -140,16 +147,6 @@ public class GUI {
         }
     }
 
-    private void loseMessage() {
-        String message = "You lose. \nThe code was: " + game.getSecretCode() + "\n Would you like to play again?";
-        int input = JOptionPane.showConfirmDialog(panel1, message, "You lose.", JOptionPane.YES_NO_OPTION);
-        if (input == JOptionPane.YES_OPTION) {
-            game.playAgain();
-            createBoard();
-        } else {
-            System.exit(0);
-        }
-    }
 
     private void createBoard() {
         guessPanel.removeAll();
@@ -239,8 +236,8 @@ public class GUI {
             updateLine(game.getBoard().getGuessHistory().size() - 1);
 
             switch (state) {
-                case 1 -> winMessage();
-                case 2 -> loseMessage();
+                case 1 -> message("You Win!");
+                case 2 -> message("You Lose.");
             }
         });
     }
