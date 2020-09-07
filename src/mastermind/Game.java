@@ -6,12 +6,10 @@ public class Game {
 
     private int turnLimit;
 
-    private Code secretCode;
 
     public Game() {
         this.board = new Board();
         this.turnLimit = 10;
-        this.secretCode = board.getSecretCode();
     }
 
     public Board getBoard() {
@@ -19,11 +17,11 @@ public class Game {
     }
 
     public Code getSecretCode() {
-        return secretCode;
+        return board.getSecretCode();
     }
 
     public int input(Code guess) {
-        if (guess.equals(secretCode)) {
+        if (guess.equals(board.getSecretCode())) {
             return 1;
         }
 
@@ -34,6 +32,10 @@ public class Game {
         }
 
         return 0;
+    }
+
+    public void playAgain() {
+        board = new Board();
     }
 
 

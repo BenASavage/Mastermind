@@ -1,5 +1,6 @@
 package mastermind;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -58,23 +59,24 @@ public class Code {
 
 
 
-
-
     public Code getFeedback(Code other) {
         Color[] otherColors = other.getColors();
         int blackPegs = 0;
         int whitePegs = 0;
 
+        ArrayList<Color> colorArrayList = new ArrayList<>(Arrays.asList(this.colors));
+
         for (int i = 0; i < otherColors.length; i++) {
             if (this.colors[i].equals(otherColors[i])) {
-               blackPegs++;
-               continue;
-           }
-
-            if (Arrays.asList(this.colors).contains(otherColors[i])) {
-               whitePegs++;
-           }
-       }
+                blackPegs++;
+                colorArrayList.remove(otherColors[i]);
+            }
+        }
+        for (Color el : colorArrayList) {
+            if (Arrays.asList(otherColors).contains(el)) {
+                whitePegs++;
+            }
+        }
 
         Color[] feedbackColors = new Color[4];
         int step = 0;

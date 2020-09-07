@@ -16,6 +16,8 @@ public class GUI {
     private JPanel inputPanel;
     private JPanel boxesPanel;
     private JPanel panel1;
+    private JPanel guessPanel;
+    private JPanel feedbackPanel;
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Mastermind");
@@ -58,17 +60,17 @@ public class GUI {
         boardPanel.setBackground(new java.awt.Color(-4275773));
         boardPanel.setOpaque(false);
         panel2.add(boardPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        final JPanel panel3 = new JPanel();
-        panel3.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel3.setAutoscrolls(false);
-        panel3.setBackground(new java.awt.Color(-1973791));
-        panel3.setOpaque(true);
-        boardPanel.add(panel3, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        final JPanel panel4 = new JPanel();
-        panel4.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel4.setBackground(new java.awt.Color(-1973791));
-        panel4.setOpaque(true);
-        boardPanel.add(panel4, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        guessPanel = new JPanel();
+        guessPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        guessPanel.setAutoscrolls(false);
+        guessPanel.setBackground(new java.awt.Color(-1973791));
+        guessPanel.setOpaque(true);
+        boardPanel.add(guessPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        feedbackPanel = new JPanel();
+        feedbackPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        feedbackPanel.setBackground(new java.awt.Color(-1973791));
+        feedbackPanel.setOpaque(true);
+        boardPanel.add(feedbackPanel, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         inputPanel = new JPanel();
         inputPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 2, new Insets(0, 0, 0, 0), -1, -1));
         inputPanel.setBackground(new java.awt.Color(-4604738));
@@ -133,7 +135,7 @@ public class GUI {
         String message = "You win! \nThe code was: " + game.getSecretCode() + "\n Would you like to play again?";
         int input = JOptionPane.showConfirmDialog(panel1, message, "You Win!", JOptionPane.YES_NO_OPTION);
         if (input == JOptionPane.YES_OPTION) {
-            game = new Game();
+            game.playAgain();
             panel1.updateUI();
         } else {
             System.exit(0);
@@ -144,7 +146,7 @@ public class GUI {
         String message = "You lose. \nThe code was: " + game.getSecretCode() + "\n Would you like to play again?";
         int input = JOptionPane.showConfirmDialog(panel1, message, "You lose.", JOptionPane.YES_NO_OPTION);
         if (input == JOptionPane.YES_OPTION) {
-            game = new Game();
+            game.playAgain();
             panel1.updateUI();
         } else {
             System.exit(0);
@@ -165,9 +167,11 @@ public class GUI {
             switch (state) {
                 case 1: {
                     winMessage();
+                    break;
                 }
                 case 2: {
                     loseMessage();
+                    break;
                 }
             }
         });
