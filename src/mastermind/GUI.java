@@ -148,6 +148,12 @@ public class GUI {
     }
 
 
+    /**
+     * Establishes the default look for the guess and feedback sections of the board.
+     * First it removes all components from both panels. Then it fills the panels with 10 sub panels, they themselves
+     * containing four neutrally-colored inactive buttons each to represent the peg slots.
+     * @see #updateLine(int)
+     */
     private void createBoard() {
         guessPanel.removeAll();
         feedbackPanel.removeAll();
@@ -185,23 +191,35 @@ public class GUI {
         }
     }
 
+    /**
+     * Updates a line of the display of the board from the logical board's history. A line being defined as both the
+     * panels at the specified index for the guessPanel container and the feedbackPanel container. The line is updated
+     * by changing the color of the buttons to match their respective colors in the logical board's respective histories.
+     * @param line index of the components to be updated/the turn in the game's history
+     * @see #createBoard()
+     * @see Board#getGuessHistory()
+     * @see Board#getFeedbackHistory()
+     */
     private void updateLine(int line) {
         JPanel currentTurnGuess = (JPanel) guessPanel.getComponent(line);
         Component[] buttonsGuess = currentTurnGuess.getComponents();
 
         for (int i = 0; i < buttonsGuess.length; i++) {
+            //Using reflection to convert our Color into awt.Color. This part was primarily learned from StackOverflow
             java.awt.Color color;
             try {
                 Field field = Class.forName("java.awt.Color").getField(
                         game.getBoard().getGuessHistory().get(line).getColors()[i].toString());
                 color = (java.awt.Color) field.get(null);
             } catch (Exception e) {
+                //In the event of a null pointer exception the color stays the same. Mostly important during the feedback
                 color = buttonsGuess[i].getBackground();
             }
 
             buttonsGuess[i].setBackground(color);
         }
 
+        //Does the same as above
         JPanel currentTurnFeedback = (JPanel) feedbackPanel.getComponent(line);
         Component[] buttonsFeedback = currentTurnFeedback.getComponents();
 
@@ -212,6 +230,7 @@ public class GUI {
                         game.getBoard().getFeedbackHistory().get(line).getColors()[i].toString());
                 color = (java.awt.Color) field.get(null);
             } catch (Exception e) {
+                //This represents an empty peg by not changing the color of the button
                 color = buttonsFeedback[i].getBackground();
             }
             buttonsFeedback[i].setBackground(color);
@@ -225,12 +244,15 @@ public class GUI {
         feedbackPanel = new JPanel(new GridLayout(10, 1, 0, 10));
         createBoard();
 
+        //This listener pulls the values from the 4 comboBoxes and constructs a Code from them
+        //then inputs that to the game and if the game returns a win or lose state then the end of the game is triggered
         guessButton = new JButton("Guess");
         guessButton.addActionListener(e -> {
             Color[] colors = new Color[]{Color.valueOf(comboBox1.getSelectedItem().toString()),
                     Color.valueOf(comboBox2.getSelectedItem().toString()),
                     Color.valueOf(comboBox3.getSelectedItem().toString()),
                     Color.valueOf(comboBox4.getSelectedItem().toString())};
+
             int state = game.input(new Code(colors));
 
             updateLine(game.getBoard().getGuessHistory().size() - 1);
