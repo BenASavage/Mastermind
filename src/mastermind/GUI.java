@@ -6,6 +6,11 @@ import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+/**
+ * GUI creates the visual representation of a game of Mastermind. It handles input and receives data to display through
+ * a Game object which is created with the GUI.
+ * @see Game
+ */
 public class GUI {
 
     private Game game;
