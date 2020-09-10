@@ -2,6 +2,10 @@ package mastermind;
 
 import java.util.ArrayList;
 
+/**
+ * Board is the logical representation of the board area of a game of Mastermind. Board contains a secret code which is
+ * randomly generated and the history of the guesses and corresponding feedbacks.
+ */
 public class Board {
 
     private final Code secretCode;

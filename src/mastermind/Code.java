@@ -2,7 +2,6 @@ package mastermind;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * A Code is a ordered list of 4 Colors.

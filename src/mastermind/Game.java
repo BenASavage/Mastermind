@@ -1,5 +1,10 @@
 package mastermind;
 
+/**
+ * Game is the logical representation of a game of Mastermind. Game holds a Board and handles the control flow of the
+ * program.
+ * @see Board
+ */
 public class Game {
 
     private Board board;
