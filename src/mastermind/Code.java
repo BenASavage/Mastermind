@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * A Code is a ordered list of 4 Colors.
+ * A Code is an immutable ordered list of 4 Colors.
  */
-public class Code {
+public final class Code {
 
-    private Color[] colors;
+    private final Color[] colors;
 
     public Code() {
         this.colors = new Color[]{Color.getRandomColor(), Color.getRandomColor(),
@@ -25,12 +25,6 @@ public class Code {
         } else {
             this.colors = new Color[]{Color.getRandomColor(), Color.getRandomColor(),
                     Color.getRandomColor(), Color.getRandomColor()};
-        }
-    }
-
-    public void setColors(Color[] colors) {
-        if (colors.length == 4) {
-            this.colors = colors;
         }
     }
 
@@ -55,8 +49,6 @@ public class Code {
     public int hashCode() {
         return Arrays.hashCode(colors);
     }
-
-
 
     public Code getFeedback(Code other) {
         Color[] otherColors = other.getColors();
