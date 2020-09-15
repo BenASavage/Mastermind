@@ -143,12 +143,12 @@ public class GUI {
      * @see #createBoard()
      * @see Game#playAgain()
      */
-    private void message(String state) {
+    private void message(String state, int guessesAllowed, int lengthOfCode) {
         String message = state + "\nThe code was: " + game.getSecretCode() + "\n Would you like to play again?";
         int input = JOptionPane.showConfirmDialog(panel1, message, state, JOptionPane.YES_NO_OPTION);
         if (input == JOptionPane.YES_OPTION) {
             game.playAgain();
-            createBoard();
+            createBoard(guessesAllowed, lengthOfCode);
         } else {
             System.exit(0);
         }
@@ -162,10 +162,10 @@ public class GUI {
      *
      * @see #updateGuessLine(int)
      */
-    public void createBoard() {
+    public void createBoard(int guessesAllowed, int lengthOfCode) {
         clearBoard();
-        createGuessLines();
-        createFeedbackLines();
+        createGuessLines(guessesAllowed, lengthOfCode);
+        createFeedbackLines(guessesAllowed, lengthOfCode);
     }
 
     /**
@@ -220,10 +220,12 @@ public class GUI {
 
     private void createUIComponents() {
         game = new Game();
+        int guessesAllowed = 10;
+        int lengthOfCode = 4;
 
-        guessPanel = new JPanel(new GridLayout(10, 1, 0, 10));
-        feedbackPanel = new JPanel(new GridLayout(10, 1, 0, 10));
-        createBoard();
+        guessPanel = new JPanel(new GridLayout(guessesAllowed, 1, 0, 10));
+        feedbackPanel = new JPanel(new GridLayout(guessesAllowed, 1, 0, 10));
+        createBoard(guessesAllowed, lengthOfCode);
 
         //This listener pulls the values from the 4 comboBoxes and constructs a Code from them
         //then inputs that to the game and if the game returns a win or lose state then the end of the game is triggered
@@ -240,9 +242,9 @@ public class GUI {
 
             switch (state) {
                 case 1:
-                    message("You Win!");
+                    message("You Win!", guessesAllowed, lengthOfCode);
                 case 2:
-                    message("You Lose.");
+                    message("You Lose.", guessesAllowed, lengthOfCode);
             }
         });
     }
@@ -254,13 +256,13 @@ public class GUI {
         feedbackPanel.revalidate();
     }
 
-    private void createGuessLines() {
+    private void createGuessLines(int guessesAllowed, int lengthOfCode) {
         ArrayList<JPanel> guessLines = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < guessesAllowed; i++) {
             guessLines.add(new JPanel(new GridLayout(1, 4, 20, 5)));
         }
         for (JPanel el : guessLines) {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < lengthOfCode; i++) {
                 Button button = new Button();
                 button.setFocusable(false);
                 button.setEnabled(false);
@@ -271,13 +273,13 @@ public class GUI {
         }
     }
 
-    private void createFeedbackLines() {
+    private void createFeedbackLines(int guessesAllowed, int lengthOfCode) {
         ArrayList<JPanel> feedbackLines = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < guessesAllowed; i++) {
             feedbackLines.add(new JPanel(new GridLayout(2, 2, 5, 5)));
         }
         for (JPanel el : feedbackLines) {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < lengthOfCode; i++) {
                 Button button = new Button();
                 button.setFocusable(false);
                 button.setEnabled(false);
