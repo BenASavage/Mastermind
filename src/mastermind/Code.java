@@ -13,6 +13,9 @@ public final class Code {
     public Code() {
         this.colors = new Color[]{Color.getRandomColor(), Color.getRandomColor(),
                 Color.getRandomColor(), Color.getRandomColor()};
+        for (Color color: this.colors) {
+            System.out.println(color);
+        }
     }
 
     public Code(Color first, Color second, Color third, Color fourth) {

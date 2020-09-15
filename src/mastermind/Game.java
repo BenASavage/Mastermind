@@ -30,6 +30,10 @@ public class Game {
      */
     public int input(Code guess) {
         board.addGuess(guess);
+        return checkEndGameCondition(guess);
+    }
+
+    public int checkEndGameCondition(Code guess){
         if (guess.equals(board.getSecretCode())) {
             return 1;
         }
@@ -38,7 +42,6 @@ public class Game {
         } else {
             return 0;
         }
-
     }
 
     public void playAgain() {

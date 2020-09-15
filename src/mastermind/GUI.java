@@ -9,6 +9,7 @@ import java.util.ArrayList;
 /**
  * GUI creates the visual representation of a game of Mastermind. It handles input and receives data to display through
  * a Game object which is created with the GUI.
+ *
  * @see Game
  */
 public class GUI {
@@ -137,6 +138,7 @@ public class GUI {
     /**
      * Displays a JOptionPane that tells the user if they have won or lost, the secret code, and asks them if they would
      * like to play again. If the user selects yes then a new board is created and displayed.
+     *
      * @param state the title and first line of the message
      * @see #createBoard()
      * @see Game#playAgain()
@@ -157,55 +159,26 @@ public class GUI {
      * Establishes the default look for the guess and feedback sections of the board.
      * First it removes all components from both panels. Then it fills the panels with 10 sub panels, they themselves
      * containing four neutrally-colored inactive buttons each to represent the peg slots.
-     * @see #updateLine(int)
+     *
+     * @see #updateGuessLine(int)
      */
-    private void createBoard() {
-        guessPanel.removeAll();
-        feedbackPanel.removeAll();
-        guessPanel.revalidate();
-        feedbackPanel.revalidate();
-
-        ArrayList<JPanel> guessLines = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            guessLines.add(new JPanel(new GridLayout(1, 4, 20, 5)));
-        }
-        for (JPanel el : guessLines) {
-            for (int i = 0; i < 4; i++) {
-                Button button = new Button();
-                button.setFocusable(false);
-                button.setEnabled(false);
-                button.setBackground(java.awt.Color.lightGray);
-                el.add(button);
-            }
-            guessPanel.add(el);
-        }
-
-        ArrayList<JPanel> feedbackLines = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            feedbackLines.add(new JPanel(new GridLayout(2, 2, 5, 5)));
-        }
-        for (JPanel el : feedbackLines) {
-            for (int i = 0; i < 4; i++) {
-                Button button = new Button();
-                button.setFocusable(false);
-                button.setEnabled(false);
-                button.setBackground(java.awt.Color.lightGray);
-                el.add(button);
-            }
-            feedbackPanel.add(el);
-        }
+    public void createBoard() {
+        clearBoard();
+        createGuessLines();
+        createFeedbackLines();
     }
 
     /**
      * Updates a line of the display of the board from the logical board's history. A line being defined as both the
      * panels at the specified index for the guessPanel container and the feedbackPanel container. The line is updated
      * by changing the color of the buttons to match their respective colors in the logical board's respective histories.
+     *
      * @param line index of the components to be updated/the turn in the game's history
      * @see #createBoard()
      * @see Board#getGuessHistory()
      * @see Board#getFeedbackHistory()
      */
-    private void updateLine(int line) {
+    private void updateGuessLine(int line) {
         JPanel currentTurnGuess = (JPanel) guessPanel.getComponent(line);
         Component[] buttonsGuess = currentTurnGuess.getComponents();
 
@@ -224,7 +197,10 @@ public class GUI {
             buttonsGuess[i].setBackground(color);
         }
 
-        //Does the same as above
+        updateFeedbackLine(line);
+    }
+
+    private void updateFeedbackLine(int line) {
         JPanel currentTurnFeedback = (JPanel) feedbackPanel.getComponent(line);
         Component[] buttonsFeedback = currentTurnFeedback.getComponents();
 
@@ -260,12 +236,55 @@ public class GUI {
 
             int state = game.input(new Code(colors));
 
-            updateLine(game.getBoard().getGuessHistory().size() - 1);
+            updateGuessLine(game.getBoard().getGuessHistory().size() - 1);
 
             switch (state) {
-                case 1 -> message("You Win!");
-                case 2 -> message("You Lose.");
+                case 1:
+                    message("You Win!");
+                case 2:
+                    message("You Lose.");
             }
         });
+    }
+
+    private void clearBoard() {
+        guessPanel.removeAll();
+        feedbackPanel.removeAll();
+        guessPanel.revalidate();
+        feedbackPanel.revalidate();
+    }
+
+    private void createGuessLines() {
+        ArrayList<JPanel> guessLines = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            guessLines.add(new JPanel(new GridLayout(1, 4, 20, 5)));
+        }
+        for (JPanel el : guessLines) {
+            for (int i = 0; i < 4; i++) {
+                Button button = new Button();
+                button.setFocusable(false);
+                button.setEnabled(false);
+                button.setBackground(java.awt.Color.lightGray);
+                el.add(button);
+            }
+            guessPanel.add(el);
+        }
+    }
+
+    private void createFeedbackLines() {
+        ArrayList<JPanel> feedbackLines = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            feedbackLines.add(new JPanel(new GridLayout(2, 2, 5, 5)));
+        }
+        for (JPanel el : feedbackLines) {
+            for (int i = 0; i < 4; i++) {
+                Button button = new Button();
+                button.setFocusable(false);
+                button.setEnabled(false);
+                button.setBackground(java.awt.Color.lightGray);
+                el.add(button);
+            }
+            feedbackPanel.add(el);
+        }
     }
 }
