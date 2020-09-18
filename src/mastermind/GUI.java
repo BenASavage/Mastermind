@@ -243,8 +243,10 @@ public class GUI {
             switch (state) {
                 case 1:
                     message("You Win!");
+                    break;
                 case 2:
                     message("You Lose.");
+                    break;
             }
         });
     }
