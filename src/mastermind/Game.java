@@ -8,9 +8,12 @@ package mastermind;
 public class Game {
 
     private Board board;
+    private int guessesAllowed;
+    private int lengthOfCode;
 
-    public Game() {
-        this.board = new Board();
+    public Game(int guessesAllowed, int lengthOfCode) {
+        this.board = new Board(lengthOfCode);
+        this.guessesAllowed = guessesAllowed;
     }
 
     public Board getBoard() {
@@ -33,11 +36,19 @@ public class Game {
         return checkEndGameCondition(guess);
     }
 
+    /**
+     * Will return 1 to end game due to guess matching secret code
+     * returns 2 if max guesses reached
+     * returns 0 if no end game condition met
+     *
+     * @param guess
+     * @return
+     */
     public int checkEndGameCondition(Code guess){
         if (guess.equals(board.getSecretCode())) {
             return 1;
         }
-        else if (board.getGuessHistory().size() > 9) {
+        else if (board.getGuessHistory().size() > guessesAllowed - 1) {
             return 2;
         } else {
             return 0;
@@ -45,7 +56,7 @@ public class Game {
     }
 
     public void playAgain() {
-        board = new Board();
+        board = new Board(lengthOfCode);
     }
 
 

@@ -14,26 +14,29 @@ public class Board {
 
     private ArrayList<Code> feedbackHistory;
 
-    public Board() {
-        secretCode = new Code();
-        guessHistory = new ArrayList<>();
-        feedbackHistory = new ArrayList<>();
+    private int lengthOfCode;
+
+    public Board(int lengthOfCode) {
+        this.lengthOfCode = lengthOfCode;
+        this.guessHistory = new ArrayList<>();
+        this.feedbackHistory = new ArrayList<>();
+        this.secretCode = new Code();
     }
 
     public void addGuess(Code guess) {
-        guessHistory.add(guess);
-        feedbackHistory.add(secretCode.getFeedback(guess));
+        this.guessHistory.add(guess);
+        this.feedbackHistory.add(this.secretCode.getFeedback(guess));
     }
 
     public Code getSecretCode() {
-        return secretCode;
+        return this.secretCode;
     }
 
     public ArrayList<Code> getGuessHistory() {
-        return guessHistory;
+        return this.guessHistory;
     }
 
     public ArrayList<Code> getFeedbackHistory() {
-        return feedbackHistory;
+        return this.feedbackHistory;
     }
 }

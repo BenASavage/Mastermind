@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * A Code is an immutable ordered list of 4 Colors.
+ * A Code is an immutable ordered list of Colors.
+ * Length of code is 4 by default but can be changed with setter
  */
 public final class Code {
 
     private final Color[] colors;
+    private int lengthOfCode = 4;
 
     public Code() {
-        this.colors = new Color[]{Color.getRandomColor(), Color.getRandomColor(),
-                Color.getRandomColor(), Color.getRandomColor()};
-        for (Color color: this.colors) {
-            System.out.println(color);
-        }
+        this.colors = new Color[this.lengthOfCode];
+        this.initializeColors();
     }
 
     public Code(Color first, Color second, Color third, Color fourth) {
@@ -23,16 +22,31 @@ public final class Code {
     }
 
     public Code(Color[] colors) {
-        if (colors.length == 4) {
+        if (colors.length == this.lengthOfCode) {
             this.colors = colors;
         } else {
-            this.colors = new Color[]{Color.getRandomColor(), Color.getRandomColor(),
-                    Color.getRandomColor(), Color.getRandomColor()};
+            this.colors = new Color[this.lengthOfCode];
+            this.initializeColors();
         }
     }
 
     public Color[] getColors() {
         return colors.clone();
+    }
+
+    /**
+     * Adds random colors to code array
+     */
+    private void initializeColors(){
+        for (int i = 0; i < this.colors.length; i++) {
+            this.colors[i] = Color.getRandomColor();
+            //this is for testing end game condition
+            System.out.println(this.colors[i]);
+        }
+    }
+
+    public void setLengthOfCode(int lengthOfCode) {
+        this.lengthOfCode = lengthOfCode;
     }
 
     @Override
@@ -72,7 +86,7 @@ public final class Code {
             }
         }
 
-        Color[] feedbackColors = new Color[4];
+        Color[] feedbackColors = new Color[this.lengthOfCode];
         int step = 0;
         for (int i = 0; i < blackPegs; i++) {
             feedbackColors[step] = Color.BLACK;
